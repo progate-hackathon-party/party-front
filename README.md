@@ -23,3 +23,14 @@ make build_ios
 ```
 make ios
 ```
+
+<br>
+ウィジェットや画面などは`./Widgets`フォルダに配置してください。<br>
+開発には`Amplify`を使用します。<br>
+
+> インストール
+- https://www.aruse.net/entry/2019/07/20/090236
+
+>release 1.1.0
+- ログイン機能の基盤を実装
+- ログイン画面を作成
