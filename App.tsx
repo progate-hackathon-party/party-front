@@ -5,7 +5,15 @@
  * @format
  */
 import React from 'react';
+
+// ページの読み込み
+import HomePage from './Pages/Home';
+import LoginPage from './Pages/Login';
+import PostPage from "./Pages/Post";
+
 import type {PropsWithChildren} from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   SafeAreaView,
   ScrollView,
@@ -29,38 +37,26 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
+const Stack = createNativeStackNavigator();
+
+function App() { // インスタンス全体で継承されるナビゲーター（この画面はHome）
+  return (
+    <NavigationContainer> 
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={HomeScreen} /> 
+        <Stack.Screen name="LoginPage" component={LoginPage} />
+        <Stack.Screen name="HomePage" component={HomePage} />
+        <Stack.Screen name="PostPage" component={PostPage} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
 // const router = useRouter()
 // const params = useLocalSearchParams();
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? "#e9e9e9" : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+function HomeScreen({navigation}:{navigation:any}): React.JSX.Element {
+  const isDarkMode = useColorScheme() == 'dark';
   const main_styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -95,9 +91,7 @@ function App(): React.JSX.Element {
         backgroundColor={main_styles.container.backgroundColor}
       />
       <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={main_styles.scrollView}>
-
-        <View
-        
+        <View  
           style={main_styles.centerContainer}>        
           <Text style={{fontWeight:'bold',fontSize:20,textAlign:'center'}}>
           {"タイムセールの場所と様子を\n投稿できる地図アプリ"}
@@ -106,8 +100,7 @@ function App(): React.JSX.Element {
             style={{margin:20,width:Dimensions.get('window').width *0.5,backgroundColor:"#D4D4FF",borderRadius:30}}
             title="ログイン"
             onPress={ () => {
-              console.log("ボタンが押されました！");
-              // router.push('/Pages/Login.tsx');
+              navigation.navigate("LoginPage")
             }}
           />
         </View>
@@ -115,24 +108,4 @@ function App(): React.JSX.Element {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
 export default App;
