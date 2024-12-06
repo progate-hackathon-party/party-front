@@ -4,7 +4,6 @@
  *
  * @format
  */
-
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -15,19 +14,24 @@ import {
   Text,
   useColorScheme,
   View,
+  Dimensions
 } from 'react-native';
 
 import {
+  Button 
+} from 'react-native-elements'
+
+import {
   Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
+
+
+// const router = useRouter()
+// const params = useLocalSearchParams();
 
 function Section({children, title}: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -37,7 +41,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
         style={[
           styles.sectionTitle,
           {
-            color: isDarkMode ? Colors.white : Colors.black,
+            color: isDarkMode ? "#e9e9e9" : Colors.black,
           },
         ]}>
         {title}
@@ -57,39 +61,55 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+  const main_styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    },
+    centerContainer: {
+      justifyContent:'center',
+      alignItems:'center',
+      width:Dimensions.get('window').width *0.9,
+      height:Dimensions.get('window').height *0.8,
+      borderRadius:Dimensions.get('window').width *0.05, // 角丸
+      backgroundColor:"#fefefe",
+      // ドロップシャドウ
+      shadowColor:"#000000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25, 
+      shadowRadius: 3.84, 
+      elevation: 5
+    },
+    scrollView: {
+      flexGrow: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center'
+    }
+  });
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={main_styles.container}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+        backgroundColor={main_styles.container.backgroundColor}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
+      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={main_styles.scrollView}>
+
         <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+        
+          style={main_styles.centerContainer}>        
+          <Text style={{fontWeight:'bold',fontSize:20,textAlign:'center'}}>
+          {"タイムセールの場所と様子を\n投稿できる地図アプリ"}
+          </Text>
+          <Button
+            style={{margin:20,width:Dimensions.get('window').width *0.5,backgroundColor:"#D4D4FF",borderRadius:30}}
+            title="ログイン"
+            onPress={ () => {
+              console.log("ボタンが押されました！");
+              // router.push('/Pages/Login.tsx');
+            }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
