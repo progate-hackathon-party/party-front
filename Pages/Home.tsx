@@ -1,4 +1,3 @@
-//ホーム
 import React from 'react';
 import {
   SafeAreaView,
@@ -8,32 +7,30 @@ import {
   Text,
   useColorScheme,
   View,
+  TouchableOpacity,
   Dimensions
 } from 'react-native';
-import { Button } from 'react-native-elements';
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import { Pressable, Image } from "react-native";
 
-function HomePage() {
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+
+function HomePage({ navigation }: { navigation: any }) {
   const isDarkMode = useColorScheme() === 'dark';
   const main_styles = StyleSheet.create({
     container: {
       flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center',
       backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    },
+    scrollView: {
+      flexGrow: 1,
     },
     centerContainer: {
       justifyContent: 'center',
       alignItems: 'center',
+      flex: 1,
     },
-    scrollView: {
-      flexGrow: 1,
-      justifyContent: 'center',
-      alignItems: 'center'
-    }
   });
+
   return (
     <SafeAreaView style={main_styles.container}>
       <StatusBar
@@ -42,14 +39,44 @@ function HomePage() {
       />
       <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={main_styles.scrollView}>
         <View style={main_styles.centerContainer}>
-            // 基本的にはここにウィジェットを配置していく
-            <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
-                {"ホーム"}
-            </Text>
+          {/* メインコンテンツ */}
+          <Text>ここにメインコンテンツ</Text>
         </View>
       </ScrollView>
+      {/* 右下に配置される要素 */}
+      <View style={styles.container}>
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("LoginPage"); // LoginPageに遷移
+          }}
+        >
+          <Image
+            source={require("./assets/map_icon.png")} // ローカル画像を指定
+            style={styles.image}
+          />
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    position: "absolute", // 絶対位置を設定
+    bottom: 20, // 下から20px
+    right: 20, // 右から20px
+  },
+  button: {
+    backgroundColor: "#D4D4FF",
+    borderRadius: 50,
+    padding: 15,
+  },
+  image: {
+    width: 50, // 画像の幅
+    height: 50, // 画像の高さ
+    resizeMode: "contain", // 画像の比率を維持して縮小/拡大
+  },
+});
 
 export default HomePage;
