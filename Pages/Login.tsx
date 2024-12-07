@@ -11,6 +11,11 @@ import {
   Dimensions
 } from 'react-native';
 
+import { Amplify } from 'aws-amplify';
+import {signUp} from "aws-amplify/auth";
+import awsExports from '../src/aws-exports';
+Amplify.configure({...awsExports})
+
 import { Button } from 'react-native-elements';
 import {
   Colors,
@@ -20,6 +25,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
+
 
 
 function LoginPage({navigation}:{navigation:any}) {
@@ -66,7 +72,7 @@ function LoginPage({navigation}:{navigation:any}) {
             title="ログイン"
             onPress={() => {
               console.log("ボタンが押されました！");
-              navigation.navigate("HomePage")
+              signUp();
             }}
           />
         </View>
