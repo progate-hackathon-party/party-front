@@ -14,6 +14,7 @@ import PostPage from "./Pages/Post";
 import type {PropsWithChildren} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Authenticator, useAuthenticator } from "@aws-amplify/ui-react-native";
 import {
   SafeAreaView,
   ScrollView,
@@ -26,7 +27,7 @@ import {
 } from 'react-native';
 
 import {
-  Button 
+  Button
 } from 'react-native-elements'
 
 import {
@@ -41,9 +42,9 @@ const Stack = createNativeStackNavigator();
 
 function App() { // インスタンス全体で継承されるナビゲーター（この画面はHome）
   return (
-    <NavigationContainer> 
+    <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={HomeScreen} /> 
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="LoginPage" component={LoginPage} />
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="PostPage" component={PostPage} />
@@ -74,38 +75,38 @@ function HomeScreen({navigation}:{navigation:any}): React.JSX.Element {
       // ドロップシャドウ
       shadowColor:"#000000",
       shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25, 
-      shadowRadius: 3.84, 
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
       elevation: 5
     },
     scrollView: {
-      flexGrow: 1, 
-      justifyContent: 'center', 
+      flexGrow: 1,
+      justifyContent: 'center',
       alignItems: 'center'
     }
   });
   return (
-    <SafeAreaView style={main_styles.container}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={main_styles.container.backgroundColor}
-      />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={main_styles.scrollView}>
-        <View  
-          style={main_styles.centerContainer}>        
-          <Text style={{fontWeight:'bold',fontSize:20,textAlign:'center'}}>
-          {"タイムセールの場所と様子を\n投稿できる地図アプリ"}
-          </Text>
-          <Button
-            style={{margin:20,width:Dimensions.get('window').width *0.5,backgroundColor:"#D4D4FF",borderRadius:30}}
-            title="ログイン"
-            onPress={ () => {
-              navigation.navigate("LoginPage")
-            }}
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          <SafeAreaView style={main_styles.container}>
+            <StatusBar
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+              backgroundColor={main_styles.container.backgroundColor}
+            />
+            <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={main_styles.scrollView}>
+              <View
+                style={main_styles.centerContainer}>
+                <Text style={{fontWeight:'bold',fontSize:20,textAlign:'center'}}>
+                {"タイムセールの場所と様子を\n投稿できる地図アプリ"}
+                </Text>
+                <Button
+                  style={{margin:20,width:Dimensions.get('window').width *0.5,backgroundColor:"#D4D4FF",borderRadius:30}}
+                  title="ログイン"
+                  onPress={ () => {
+                    navigation.navigate("PostPage")
+                  }}
+                />
+              </View>
+            </ScrollView>
+          </SafeAreaView>
   );
 }
 export default App;

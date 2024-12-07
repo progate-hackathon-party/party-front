@@ -1,5 +1,5 @@
 // ログイン画面をここに記述(yomi4486)
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,25 +8,30 @@ import {
   Text,
   useColorScheme,
   View,
-  Dimensions
+  Dimensions, Modal,
+  Button, TextInput
 } from 'react-native';
 
 import { Amplify } from 'aws-amplify';
-import {signUp} from "aws-amplify/auth";
-import awsExports from '../src/aws-exports';
-Amplify.configure({...awsExports})
-
-import { Button } from 'react-native-elements';
+import {signUp} from 'aws-amplify/auth';
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
-
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 const Stack = createNativeStackNavigator();
 
-
+Amplify.configure({
+  Auth:{
+    Cognito:{
+      userPoolId: "us-west-2_9Tap2vGIU",
+      userPoolClientId: "7tm4cg6q800ns7rc663d2p8e0r",
+      loginWith: {
+        email: true,
+        username: true,
+      },
+    }
+  }
+})
 
 function LoginPage({navigation}:{navigation:any}) {
   const isDarkMode = useColorScheme() === 'dark';
@@ -54,8 +59,18 @@ function LoginPage({navigation}:{navigation:any}) {
       flexGrow: 1,
       justifyContent: 'center',
       alignItems: 'center'
-    }
+    },
+    input: {
+      height: 40,
+      margin: 12,
+      width: Dimensions.get('window').width * 0.8,
+      borderWidth: 1,
+      padding: 10,
+      color: 'black',
+    },
   });
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <SafeAreaView style={main_styles.container}>
       <StatusBar
@@ -67,12 +82,28 @@ function LoginPage({navigation}:{navigation:any}) {
           <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
             {"ログイン画面"}
           </Text>
+          <TextInput
+              style={main_styles.input}
+          />
+          <TextInput
+              style={main_styles.input}
+          />
           <Button
-            style={{ margin: 20, width: Dimensions.get('window').width * 0.5, backgroundColor: "#D4D4FF", borderRadius: 30 }}
             title="ログイン"
-            onPress={() => {
-              console.log("ボタンが押されました！");
-              signUp();
+            onPress={async () => {
+              try {
+
+                let result = await signUp({
+                  username: "test",
+                  password: "test",
+                });
+
+                console.log(result);
+                console.log("ログインしました");
+                setModalVisible(!modalVisible)
+              }catch (e) {
+                console.log(e)
+              }
             }}
           />
         </View>
@@ -80,5 +111,6 @@ function LoginPage({navigation}:{navigation:any}) {
     </SafeAreaView>
   );
 }
+
 
 export default LoginPage;

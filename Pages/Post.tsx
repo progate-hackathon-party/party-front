@@ -8,12 +8,10 @@ import {
   Text,
   useColorScheme,
   View,
-  Dimensions
 } from 'react-native';
-import { Button } from 'react-native-elements';
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Authenticator} from '@aws-amplify/ui-react-native';
+import {decodeJWT, fetchAuthSession} from "aws-amplify/auth";
 
 function PostPage() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -31,24 +29,34 @@ function PostPage() {
     scrollView: {
       flexGrow: 1,
       justifyContent: 'center',
-      alignItems: 'center'
-    }
+      alignItems: 'center',
+    },
   });
+
+  fetchAuthSession().then((session) => {
+      console.log(String(session.tokens?.accessToken));
+  })
+
+
   return (
-    <SafeAreaView style={main_styles.container}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={main_styles.container.backgroundColor}
-      />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={main_styles.scrollView}>
-        <View style={main_styles.centerContainer}>
-            // 基本的にはここにウィジェットを配置していく
-            <Text style={{ fontWeight: 'bold', fontSize: 20, textAlign: 'center' }}>
-                {"投稿画面"}
-            </Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <Authenticator.Provider>
+      <Authenticator>
+        <SafeAreaView style={main_styles.container}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={main_styles.container.backgroundColor}
+          />
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            contentContainerStyle={main_styles.scrollView}>
+            <View style={main_styles.centerContainer}>
+              <Text
+                style={{fontWeight: 'bold', fontSize: 20, textAlign: 'center', color:"white"}}>投稿画面</Text>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      </Authenticator>
+    </Authenticator.Provider>
   );
 }
 
