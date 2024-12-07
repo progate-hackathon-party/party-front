@@ -1,18 +1,17 @@
 //ホーム
 import React from 'react';
 import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
+    Modal,
     StyleSheet,
-    Text,
-    useColorScheme,
+    Text, TextInput,
+    TouchableOpacity,
+    Image,
     View,
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Authenticator} from '@aws-amplify/ui-react-native';
 import {fetchAuthSession} from "aws-amplify/auth";
 import {Amplify} from "aws-amplify";
+import {Link} from "expo-router";
 
 Amplify.configure({
     Auth:{
@@ -35,42 +34,116 @@ function PostPage() {
     return (
         <Authenticator.Provider>
             <Authenticator>
-                <SafeAreaView style={main_styles.container}>
-                    <StatusBar
-                        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                        backgroundColor={main_styles.container.backgroundColor}
-                    />
-                    <ScrollView
-                        contentInsetAdjustmentBehavior="automatic"
-                        contentContainerStyle={main_styles.scrollView}>
-                        <View style={main_styles.centerContainer}>
-                            <Text
-                                style={{fontWeight: 'bold', fontSize: 20, textAlign: 'center', color:"white"}}>投稿画面</Text>
+                <Modal visible={true} transparent animationType="slide">
+                    <View style={styles.container}>
+                        {/* Close Button */}
+                        <TouchableOpacity style={styles.closeButton}>
+                            <Link href={"/"} style={styles.closeButtonText}>✖</Link>
+                        </TouchableOpacity>
+
+                        {/* Form */}
+                        <View style={styles.form}>
+                            {/* Image Upload */}
+                            <View style={styles.imageUpload}>
+                                <Image source={{ uri: 'https://via.placeholder.com/150' }} style={styles.imagePlaceholder} />
+                            </View>
+
+                            {/* Text Inputs */}
+                            <TextInput style={styles.input} placeholder="地名、店名など" />
+                            <TextInput
+                                style={[styles.input, styles.detailsInput]}
+                                placeholder="詳細"
+                                multiline
+                                numberOfLines={4}
+                            />
+                            {/* Submit Button */}
+                            <TouchableOpacity style={styles.submitButton}>
+                                <Text style={styles.submitButtonText}>投稿</Text>
+                            </TouchableOpacity>
                         </View>
-                    </ScrollView>
-                </SafeAreaView>
+                    </View>
+                </Modal>
             </Authenticator>
         </Authenticator.Provider>
+
     );
 }
 
-const isDarkMode = useColorScheme() === 'dark';
-
-const main_styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    },
-    centerContainer: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    scrollView: {
-        flexGrow: 1,
-        justifyContent: 'center',
+    closeButton: {
+        position: 'absolute',
+        top: 40,
+        left: 20,
+        zIndex: 1,
+    },
+    closeButtonText: {
+        fontSize: 24,
+        color: '#000',
+    },
+    form: {
+        backgroundColor: '#eee',
+        borderRadius: 10,
+        width: '90%',
+        padding: 20,
+    },
+    imageUpload: {
         alignItems: 'center',
+        marginBottom: 20,
+    },
+    imagePlaceholder: {
+        width: 60,
+        height: 60,
+        backgroundColor: '#ddd',
+        borderRadius: 5,
+    },
+    input: {
+        backgroundColor: '#f9f9f9',
+        padding: 10,
+        borderRadius: 5,
+        marginBottom: 15,
+    },
+    detailsInput: {
+        height: 80,
+        textAlignVertical: 'top',
+    },
+    notificationContainer: {
+        marginBottom: 20,
+    },
+    notificationLabel: {
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    notificationOptions: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    option: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    timeInput: {
+        marginLeft: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#000',
+        width: 60,
+        textAlign: 'center',
+    },
+    submitButton: {
+        backgroundColor: '#c5c5c5',
+        padding: 15,
+        alignItems: 'center',
+        borderRadius: 5,
+    },
+    submitButtonText: {
+        color: '#fff',
+        fontSize: 16,
     },
 });
 
