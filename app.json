@@ -1,4 +1,43 @@
 {
-  "name": "party",
-  "displayName": "party"
+  "expo": {
+    "name": "party-front",
+    "slug": "party-front",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/map_icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.partyfront"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/map_icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.anonymous.partyfront"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/map_icon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/map_icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
 }
