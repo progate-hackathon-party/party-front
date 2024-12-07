@@ -5,6 +5,7 @@
  * @format
  */
 import React from 'react';
+import post from './lib/post'
 
 // ページの読み込み
 import HomePage from './Pages/Home';
@@ -101,6 +102,7 @@ function HomeScreen({navigation}:{navigation:any}): React.JSX.Element {
             title="ログイン"
             onPress={ () => {
               navigation.navigate("LoginPage")
+              post()
             }}
           />
         </View>

@@ -15,7 +15,7 @@ import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
 
-function HomePage() {
+function HomePage({navigation}:{navigation:any}) {
   const isDarkMode = useColorScheme() === 'dark';
   const main_styles = StyleSheet.create({
     container: {
