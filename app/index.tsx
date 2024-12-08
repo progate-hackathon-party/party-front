@@ -10,11 +10,19 @@ import {
     StyleSheet,
     Text,
     useColorScheme,
-    View
+    View,
+    Button,
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import FontAwesome from '@expo/vector-icons/FontAwesome'
+import Modal from 'react-native-modal'
+import {Tabs} from "expo-router"
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-function HomePage({ navigation }: { navigation: any }) {
+function HomePage() {
+    const show_datail = () => {
+        console.log("ok!")
+        
+    }
     const isDarkMode = useColorScheme() !== 'dark';
     const main_styles = StyleSheet.create({
         container: {
@@ -44,34 +52,61 @@ function HomePage({ navigation }: { navigation: any }) {
             shadowRadius: 5, // シャドウのぼかし具合
             padding:10
         },
+        modal: {
+    justifyContent: 'flex-end',  // モーダルを画面下に配置
+    margin: 0,  // デフォルトの余白をなくす
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
     });
+    const [isModalVisible,setModalVisible] = useState(false)
 
-    const [data, setData] = useState();
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const result = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/posts`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                const data = await result.json();
-                setData(data);
-            } catch (e) {
-                console.error(e);
-            }
-        })()
-    }, []);
-
+    // モーダルの表示/非表示をトグルする関数
+    const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+    };
     return (
         <SafeAreaView style={main_styles.container}>
             <StatusBar
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
                 backgroundColor={main_styles.container.backgroundColor}
             />
+            <Modal
+                isVisible={isModalVisible}
+                onBackdropPress={toggleModal} // バックグラウンドをタップしたときにモーダルを閉じる
+                onSwipeComplete={toggleModal} // スワイプでモーダルを閉じる
+                swipeDirection="down" // スワイプ方向を設定
+                style={styles.modal} // モーダルのスタイル
+            >
+                <View style={styles.modalContent}>
+                    <View style={{  flexDirection: 'row', alignItems: 'flex-start', padding: 10 }}>
+                            
+                            <View style={{ alignItems: 'flex-start' ,marginRight:40}}> {/* ここを変更 */}
+                                <Text style={{ fontSize: 30, fontWeight: 'bold', color: isDarkMode ? '#000000' : '#ffffff' }}>
+                                    aaa店
+                                </Text>
+                                <Text style={{ fontSize: 17, fontWeight: 'bold', color: isDarkMode ? '#696969' : '#eeeeee' }}>東京都ーーーーーー１−３ー３</Text>
+                                <Text style={{ paddingTop: 13, fontSize: 15, fontWeight: 'bold', color: isDarkMode ? '#696969' : '#ffffff' }}>
+                                📍 ラーメン一郎店 🍜 特製味噌ラーメンが500円引き！ 📅 セール期間: 12月10日〜12月20日 ⏰ 営業時間: 11:00〜22:00 ✨ 注目ポイント: セール期間中はトッピング1品無料！
+                                </Text>
+
+                            </View>
+                            <Text style={{ paddingLeft: 18, paddingTop: 47, fontSize: 18, fontWeight: 'bold', color: isDarkMode ? '#ffffff' : '#000000' }}>8m</Text>
+                        </View>
+                    <Button title="閉じる" onPress={toggleModal} />
+                </View>
+            </Modal>
             <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={main_styles.scrollView}>
+                
                 <View style={{ flexDirection: 'row', marginTop: 40 }}>
                     <Text style={[isDarkMode ? {color:"#ffffff"} : {color:"#000000"}, {fontSize: 30, paddingLeft: 25, fontWeight: 'bold'}]}>
                         近くのセール
@@ -79,46 +114,27 @@ function HomePage({ navigation }: { navigation: any }) {
                 </View>
 
                 <View style={main_styles.centerContainer}>
+                    {/* 四角いボックス */}
                     <View style={main_styles.box}>
-                        {data
-                        ?data.posts.map((post: any) => {
-                                return (
-                                    <><View style={{
-                                        paddingLeft: 60,
-                                        flexDirection: 'row',
-                                        alignItems: 'flex-start',
-                                        paddingRight: 80,
-                                        padding: 10
-                                    }}>
-                                        <Image
-                                            source={require("../assets/images/map_icon.png")}
-                                            style={[styles.image, {marginTop: 10, marginRight: 15}]} // 横並び用のスタイル
-                                        />
-                                        <View style={{alignItems: 'flex-start'}}>
-                                            <Text style={{
-                                                fontSize: 25,
-                                                fontWeight: 'bold',
-                                                color: isDarkMode ? '#ffffff' : '#000000'
-                                            }}>
-                                                {post.attribute_values.name}
-                                            </Text>
-                                            <Text style={{
-                                                fontSize: 10,
-                                                fontWeight: 'bold',
-                                                color: isDarkMode ? '#ffffff' : '#000000'
-                                            }}
-                                                  numberOfLines={3} // 1行に制限
-                                                  ellipsizeMode="tail" // 文字数を超えた場合に「...」を追加
-                                            >
-                                                📍 {post.attribute_values.content}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                        <Text style={{fontSize: 7}}>_________________________________________________________________________</Text></>
-                                )
-                            })
-                        :<SafeAreaView/>
-                        }
+                        <View style={{ paddingLeft: 60, flexDirection: 'row', alignItems: 'flex-start', paddingRight: 80, padding: 10 }}>
+                            <Image
+                                source={require("../assets/images/map_icon.png")}
+                                style={[styles.image, { marginTop: 10, marginRight: 15 }]} // 横並び用のスタイル
+                            />
+                            <View style={{ alignItems: 'flex-start' }}> {/* ここを変更 */}
+                                <Text style={{ fontSize: 25, fontWeight: 'bold', color: isDarkMode ? '#ffffff' : '#000000' }}>
+                                    aaa店
+                                </Text>
+                                <Text style={{ fontSize: 10, fontWeight: 'bold', color: isDarkMode ? '#ffffff' : '#000000' }}
+                                      numberOfLines={3}  // 1行に制限
+                                      ellipsizeMode="tail"  // 文字数を超えた場合に「...」を追加
+                                >
+                                    📍 ラーメン一郎店 🍜 特製味噌ラーメンが500円引き！ 📅 セール期間: 12月10日〜12月20日 ⏰ 営業時間: 11:00〜22:00 ✨ 注目ポイント: セール期間中はトッピング1品無料！
+                                </Text>
+                            </View>
+                            <Text style={{ paddingLeft: 18, paddingTop: 47, fontSize: 18, fontWeight: 'bold', color: isDarkMode ? '#ffffff' : '#000000' }}>8m</Text>
+                        </View>
+                        <Text style={{ fontSize: 7}}>_________________________________________________________________________</Text>
                     </View>
                 </View>
 
@@ -137,7 +153,24 @@ function HomePage({ navigation }: { navigation: any }) {
                     />
                 </Pressable>
             </View>
+            <Tabs screenOptions={{ tabBarActiveTintColor: 'blue' }}>
+                <Tabs.Screen
+                    name="index"
+                    options={{
+                    title: 'Home',
+                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+                    }}
+                />
+                <Tabs.Screen
+                    name="settings"
+                    options={{
+                    title: 'Settings',
+                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
+                    }}
+                />
+            </Tabs>
         </SafeAreaView>
+        
     );
 }
 const insertLineBreaks = (text: string, maxLength: number): string => {
@@ -164,6 +197,21 @@ const styles = StyleSheet.create({
         height: 50, // 画像の高さ
         resizeMode: "contain", // 画像の比率を維持して縮小/拡大
     },
+    modal: {
+        justifyContent: 'flex-end',  // モーダルを画面下に配置
+        margin: 0,  // デフォルトの余白をなくす
+      },
+      modalContent: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        alignItems: 'center',
+      },
+      modalText: {
+        fontSize: 18,
+        marginBottom: 20,
+      },
 });
 
 export default HomePage;
