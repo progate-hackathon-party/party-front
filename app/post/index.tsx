@@ -1,5 +1,4 @@
-//ホーム
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Modal,
     StyleSheet,
@@ -8,16 +7,15 @@ import {
     Image,
     View,
 } from 'react-native';
-import {Authenticator} from '@aws-amplify/ui-react-native';
-import {fetchAuthSession} from "aws-amplify/auth";
-import {Amplify} from "aws-amplify";
-import {Link} from "expo-router";
+import { Authenticator } from '@aws-amplify/ui-react-native';
+import { fetchAuthSession } from "aws-amplify/auth";
+import { Amplify } from "aws-amplify";
+import { Link } from "expo-router";
 import Geolocation from '@react-native-community/geolocation';
 
-
 Amplify.configure({
-    Auth:{
-        Cognito:{
+    Auth: {
+        Cognito: {
             userPoolId: "us-west-2_9Tap2vGIU",
             userPoolClientId: "7tm4cg6q800ns7rc663d2p8e0r",
             loginWith: {
@@ -28,8 +26,10 @@ Amplify.configure({
     }
 })
 
-
 function PostPage() {
+    const [shopName, setShopName] = useState("");
+    const [content, setContent] = useState("");
+
     async function sendPost() {
         let session = await fetchAuthSession()
         let token = session.tokens!.idToken?.toString()
@@ -42,8 +42,8 @@ function PostPage() {
                         'Authorization': 'Bearer ' + token
                     },
                     body: JSON.stringify({
-                        name:"string",
-                        content: "string",
+                        name: shopName,
+                        content: content,
                         lat: position.coords.latitude,
                         lon: position.coords.longitude,
                         image_url: "string"
@@ -51,7 +51,7 @@ function PostPage() {
                 })
             },
             err => alert(err.message),
-            { enableHighAccuracy: true, timeout: 3000000, maximumAge: 100}
+            { enableHighAccuracy: true, timeout: 3000000, maximumAge: 100 }
         );
     }
 
@@ -73,12 +73,19 @@ function PostPage() {
                             </View>
 
                             {/* Text Inputs */}
-                            <TextInput style={styles.input} placeholder="地名、店名など" />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="地名、店名など"
+                                value={shopName}
+                                onChangeText={text => setShopName(text)}
+                            />
                             <TextInput
                                 style={[styles.input, styles.detailsInput]}
                                 placeholder="詳細"
                                 multiline
                                 numberOfLines={4}
+                                value={content}
+                                onChangeText={text => setContent(text)}
                             />
                             {/* Submit Button */}
                             <TouchableOpacity style={styles.submitButton} onPress={sendPost}>
