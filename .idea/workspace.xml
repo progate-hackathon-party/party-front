@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0facbdf-177d-470b-989b-58e4d8a4827c" name="変更" comment="Add: Request">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/post/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/post/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +51,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/Change__Expo&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -84,7 +85,7 @@
       <updated>1733561421498</updated>
       <workItem from="1733561423159" duration="11065000" />
       <workItem from="1733584679739" duration="9229000" />
-      <workItem from="1733594160210" duration="14193000" />
+      <workItem from="1733594160210" duration="17755000" />
     </task>
     <task id="LOCAL-00001" summary="Add: CogniteLogin">
       <option name="closed" value="true" />
@@ -110,7 +111,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733605036366</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Add: Request">
+      <option name="closed" value="true" />
+      <created>1733623218325</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1733623218325</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

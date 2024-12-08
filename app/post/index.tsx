@@ -35,7 +35,7 @@ function PostPage() {
         let token = session.tokens!.idToken?.toString()
         Geolocation.getCurrentPosition(
             position => {
-                fetch(`${process.env.API_URL}/posts`, {
+                fetch(`${process.env.EXPO_PUBLIC_API_URL}/posts`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

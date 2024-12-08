@@ -15,7 +15,7 @@ import {router} from "expo-router";
 import Mapbox, {Camera, MapView, PointAnnotation} from "@rnmapbox/maps";
 import Geolocation, {GeolocationResponse} from '@react-native-community/geolocation';
 import {RegionPayload} from "@rnmapbox/maps/src/components/MapView";
-
+import {GeoJSON} from "geojson";
 
 Mapbox.setAccessToken("pk.eyJ1IjoibW9ub2thbW8iLCJhIjoiY200ZWozbjFhMGJjdTJrb3VmMHk4ejhscSJ9.SaCvoIQ_-wXSpTI2oDsm6A");
 
@@ -52,10 +52,33 @@ function HomePage() {
     const [visibleBounds, setVisibleBounds] = useState<Array<GeoJSON.Position>>();
 
     // ユーザーの視界が変わった時に座標を取得する
-    const handleRegionChange = (event:GeoJSON.Feature<GeoJSON.Point, RegionPayload>) => {
-        const { visibleBounds,zoomLevel } = event.properties;
-        console.log('Current Region:', { visibleBounds, zoomLevel });
-        setVisibleBounds(visibleBounds);
+    const handleRegionChange = async (event:GeoJSON.Feature<GeoJSON.Point, RegionPayload>) => {
+        const { visibleBounds } = event.properties;
+
+        try{
+            const result = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/posts/location`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    lat: [visibleBounds[1][1], visibleBounds[0][1]],
+                    lon: [visibleBounds[1][0], visibleBounds[0][0]],
+                }),
+            })
+
+            const data = await result.json();
+            let posts:Array<GeoJSON.Position> = []
+
+            data.posts.map((post) => {
+                const position:GeoJSON.Position = [post.attribute_values.lon, post.attribute_values.lat]
+                posts.push(position)
+            })
+
+            setVisibleBounds(posts);
+        }catch (e){
+            console.log(e)
+        }
     };
 
     return (
@@ -73,21 +96,25 @@ function HomePage() {
                         <Camera
                             defaultSettings={{ centerCoordinate: [location.coords.longitude, location.coords.latitude], zoomLevel: 15 }}
                         />
-                        {visibleBounds?.map((position, index) => {
-                            return (
-                                <PointAnnotation
-                                    id={`pointAnnotation${index}`}
-                                    coordinate={position}
-                                >
-                                    <View style={styles.pinContainer}>
-                                        <Image
-                                            source={require("../assets/images/map_icon.png")} // ローカル画像を指定
-                                            style={styles.image}
-                                        />
-                                    </View>
-                                </PointAnnotation>
-                            );
-                        })}
+                        {visibleBounds
+                            ?visibleBounds.map((position, index) => {
+                                return (
+                                    <PointAnnotation
+                                        id={`pointAnnotation${index}`}
+                                        coordinate={position}
+                                    >
+                                        <View style={styles.pinContainer}>
+                                            <Image
+                                                source={require("../assets/images/map_icon.png")} // ローカル画像を指定
+                                                style={styles.image}
+                                            />
+                                        </View>
+                                    </PointAnnotation>
+                                );
+                            })
+                            :<SafeAreaView/>
+                        }
+
                     </MapView>
                 </ScrollView>
                 {/* 右下に配置される要素 */}
