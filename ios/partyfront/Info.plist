@@ -73,6 +73,8 @@
     </array>
     <key>UIUserInterfaceStyle</key>
     <string>Automatic</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Obtain location information and use information on nearby stores, etc.</string>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
   </dict>
