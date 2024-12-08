@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0facbdf-177d-470b-989b-58e4d8a4827c" name="変更" comment="Add: Pin">
-      <change afterPath="$PROJECT_DIR$/app/details/index.tsx" afterDir="false" />
+    <list default="true" id="c0facbdf-177d-470b-989b-58e4d8a4827c" name="変更" comment="Add: Details">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
     </list>
@@ -127,7 +126,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733629017682</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add: Details">
+      <option name="closed" value="true" />
+      <created>1733629303723</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733629303723</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,6 +146,7 @@
     <MESSAGE value="Add: Maps" />
     <MESSAGE value="Add: Request" />
     <MESSAGE value="Add: Pin" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add: Pin" />
+    <MESSAGE value="Add: Details" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add: Details" />
   </component>
 </project>

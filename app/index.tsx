@@ -1,17 +1,18 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {router} from "expo-router";
 import {
+    Dimensions,
+    Image,
+    Pressable,
     SafeAreaView,
     ScrollView,
     StatusBar,
     StyleSheet,
     Text,
     useColorScheme,
-    View,
-    Dimensions
+    View
 } from 'react-native';
-import { Pressable, Image } from "react-native";
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 function HomePage({ navigation }: { navigation: any }) {
     const isDarkMode = useColorScheme() !== 'dark';
@@ -45,6 +46,25 @@ function HomePage({ navigation }: { navigation: any }) {
         },
     });
 
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const result = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/posts`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                const data = await result.json();
+                setData(data);
+            } catch (e) {
+                console.error(e);
+            }
+        })()
+    }, []);
+
     return (
         <SafeAreaView style={main_styles.container}>
             <StatusBar
@@ -59,29 +79,47 @@ function HomePage({ navigation }: { navigation: any }) {
                 </View>
 
                 <View style={main_styles.centerContainer}>
-                    {/* 四角いボックス */}
                     <View style={main_styles.box}>
-                        <View style={{ paddingLeft: 60, flexDirection: 'row', alignItems: 'flex-start', paddingRight: 80, padding: 10 }}>
-                            <Image
-                                source={require("../assets/images/map_icon.png")}
-                                style={[styles.image, { marginTop: 10, marginRight: 15 }]} // 横並び用のスタイル
-                            />
-                            <View style={{ alignItems: 'flex-start' }}> {/* ここを変更 */}
-                                <Text style={{ fontSize: 25, fontWeight: 'bold', color: isDarkMode ? '#ffffff' : '#000000' }}>
-                                    aaa店
-                                </Text>
-                                <Text style={{ fontSize: 10, fontWeight: 'bold', color: isDarkMode ? '#ffffff' : '#000000' }}
-                                      numberOfLines={3}  // 1行に制限
-                                      ellipsizeMode="tail"  // 文字数を超えた場合に「...」を追加
-                                >
-                                    📍 ラーメン一郎店 🍜 特製味噌ラーメンが500円引き！ 📅 セール期間: 12月10日〜12月20日 ⏰ 営業時間: 11:00〜22:00 ✨ 注目ポイント: セール期間中はトッピング1品無料！
-                                </Text>
-                            </View>
-                            <Text style={{ paddingLeft: 18, paddingTop: 47, fontSize: 18, fontWeight: 'bold', color: isDarkMode ? '#ffffff' : '#000000' }}>8m</Text>
-                        </View>
-                        <Text style={{ fontSize: 7}}>_________________________________________________________________________</Text>
+                        {data
+                        ?data.posts.map((post: any) => {
+                                return (
+                                    <><View style={{
+                                        paddingLeft: 60,
+                                        flexDirection: 'row',
+                                        alignItems: 'flex-start',
+                                        paddingRight: 80,
+                                        padding: 10
+                                    }}>
+                                        <Image
+                                            source={require("../assets/images/map_icon.png")}
+                                            style={[styles.image, {marginTop: 10, marginRight: 15}]} // 横並び用のスタイル
+                                        />
+                                        <View style={{alignItems: 'flex-start'}}>
+                                            <Text style={{
+                                                fontSize: 25,
+                                                fontWeight: 'bold',
+                                                color: isDarkMode ? '#ffffff' : '#000000'
+                                            }}>
+                                                {post.attribute_values.name}
+                                            </Text>
+                                            <Text style={{
+                                                fontSize: 10,
+                                                fontWeight: 'bold',
+                                                color: isDarkMode ? '#ffffff' : '#000000'
+                                            }}
+                                                  numberOfLines={3} // 1行に制限
+                                                  ellipsizeMode="tail" // 文字数を超えた場合に「...」を追加
+                                            >
+                                                📍 {post.attribute_values.content}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                        <Text style={{fontSize: 7}}>_________________________________________________________________________</Text></>
+                                )
+                            })
+                        :<SafeAreaView/>
+                        }
                     </View>
-
                 </View>
 
             </ScrollView>
