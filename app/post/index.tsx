@@ -12,6 +12,8 @@ import {Authenticator} from '@aws-amplify/ui-react-native';
 import {fetchAuthSession} from "aws-amplify/auth";
 import {Amplify} from "aws-amplify";
 import {Link} from "expo-router";
+import Geolocation from '@react-native-community/geolocation';
+
 
 Amplify.configure({
     Auth:{
@@ -26,10 +28,32 @@ Amplify.configure({
     }
 })
 
+
 function PostPage() {
-    fetchAuthSession().then((session) => {
-        console.log(session.tokens?.accessToken.toString());
-    })
+    async function sendPost() {
+        let session = await fetchAuthSession()
+        let token = session.tokens!.idToken?.toString()
+        Geolocation.getCurrentPosition(
+            position => {
+                fetch(`${process.env.API_URL}/posts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        name:"string",
+                        content: "string",
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude,
+                        image_url: "string"
+                    }),
+                })
+            },
+            err => alert(err.message),
+            { enableHighAccuracy: true, timeout: 3000000, maximumAge: 100}
+        );
+    }
 
     return (
         <Authenticator.Provider>
@@ -57,7 +81,7 @@ function PostPage() {
                                 numberOfLines={4}
                             />
                             {/* Submit Button */}
-                            <TouchableOpacity style={styles.submitButton}>
+                            <TouchableOpacity style={styles.submitButton} onPress={sendPost}>
                                 <Text style={styles.submitButtonText}>投稿</Text>
                             </TouchableOpacity>
                         </View>
@@ -65,7 +89,6 @@ function PostPage() {
                 </Modal>
             </Authenticator>
         </Authenticator.Provider>
-
     );
 }
 
