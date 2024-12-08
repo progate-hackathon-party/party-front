@@ -15,7 +15,6 @@ import {router} from "expo-router";
 import Mapbox, {Camera, MapView, PointAnnotation} from "@rnmapbox/maps";
 import Geolocation, {GeolocationResponse} from '@react-native-community/geolocation';
 import {RegionPayload} from "@rnmapbox/maps/src/components/MapView";
-import {GeoJSON} from "geojson";
 
 Mapbox.setAccessToken("pk.eyJ1IjoibW9ub2thbW8iLCJhIjoiY200ZWozbjFhMGJjdTJrb3VmMHk4ejhscSJ9.SaCvoIQ_-wXSpTI2oDsm6A");
 
@@ -70,7 +69,7 @@ function HomePage() {
             const data = await result.json();
             let posts:Array<GeoJSON.Position> = []
 
-            data.posts.map((post) => {
+            data.posts.map((post:any) => {
                 const position:GeoJSON.Position = [post.attribute_values.lon, post.attribute_values.lat]
                 posts.push(position)
             })
@@ -122,7 +121,7 @@ function HomePage() {
                     <Pressable
                         style={styles.button}
                         onPress={() => {
-                            router.push("/post")
+                            router.push("/details")
                         }}
                     >
                         <Image

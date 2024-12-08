@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0facbdf-177d-470b-989b-58e4d8a4827c" name="変更" comment="Add: Request">
+    <list default="true" id="c0facbdf-177d-470b-989b-58e4d8a4827c" name="変更" comment="Add: Pin">
+      <change afterPath="$PROJECT_DIR$/app/details/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/post/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/post/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +119,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733623218325</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add: Pin">
+      <option name="closed" value="true" />
+      <created>1733629017682</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733629017682</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +138,7 @@
     <MESSAGE value="Change: Expo" />
     <MESSAGE value="Add: Maps" />
     <MESSAGE value="Add: Request" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add: Request" />
+    <MESSAGE value="Add: Pin" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add: Pin" />
   </component>
 </project>
